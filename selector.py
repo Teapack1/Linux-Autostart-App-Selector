@@ -7,26 +7,27 @@ import subprocess
 class ServiceManagerApp(App):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.services = ['mediapipe.service', 'sunbox.service', 'classifyii.service']
+        self.services = ['mediapipe.service', 'sunbox.service', 'classifyii.service', 'home.service']
         self.current_service = None
         self.buttons = {}
         self.custom_labels = {
             'mediapipe.service': 'Handgestures Mediapipe',
             'sunbox.service': 'Sunbox Mirror CTT tuning',
-            'classifyii.service': 'Audio Classify-II'
+            'classifyii.service': 'Audio Classify-II',
+            'home.service': 'Flask Smart Home',   
         }
         self.descriptions = {
-            'mediapipe.service': 'MediaPipe Description...',
-            'sunbox.service': 'Sunbox Description...',
-            'classifyii.service': 'ClassifyII Description...'
+            'mediapipe.service': '1) Connect LAN from the 2. port to the Madrix PC.\n 2) Setup IP addres on the Madrix to 10.255.255.1\n 3) Run hangesture-mediapipy madrix setup.\n 4) Scenes changes be gestures.\n 5) Pointer finger changes position of the light spot.',
+            'sunbox.service': '1) Get Wifi module for this PC.\n 2) Start Sunbox module board and the LED.\n 3) Setup IP 192.168.0.2 on the Sunbox module.\n 4) Connect to Wifi "mispot", password is "heslo123".\n 5) Press start on the Sunbox module.',
+            'classifyii.service': '1) '
         }
         self.main_layout = None
         self.description_layout = None
 
     def build(self):
         self.root = BoxLayout()  # root is now directly accessible
-        self.main_layout = BoxLayout(orientation='vertical', padding=10, spacing=10)
-        self.description_layout = BoxLayout(orientation='vertical', padding=10, spacing=10)
+        self.main_layout = BoxLayout(orientation='vertical', padding=5, spacing=5)
+        self.description_layout = BoxLayout(orientation='vertical', padding=5, spacing=5)
         self.build_main_menu()
         self.root.add_widget(self.main_layout)  # Add main_layout to root
         return self.root
@@ -35,13 +36,13 @@ class ServiceManagerApp(App):
         # Build main menu
         for service_name in self.services:
             btn_text = self.custom_labels.get(service_name, f'Start {service_name}')
-            btn = Button(text=btn_text, font_size='20sp')
+            btn = Button(text=btn_text, font_size='25sp')
             btn.bind(on_press=lambda instance, name=service_name: self.show_description(name))
             self.main_layout.add_widget(btn)
             self.buttons[service_name] = btn
 
         # Add exit button to main layout
-        exit_btn = Button(text='Continue to Linux without starting a service', font_size='20sp')
+        exit_btn = Button(text='to Linux', font_size='35sp')
         exit_btn.bind(on_press=lambda instance: self.exit_app())
         self.main_layout.add_widget(exit_btn)
 
